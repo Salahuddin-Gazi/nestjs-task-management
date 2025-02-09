@@ -24,16 +24,10 @@ import { TasksRepository } from "./tasks.repository";
 import { DataSource } from "typeorm";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Task])], // ✅ Register Task entity
+  imports: [], // ✅ Register Task entity
   controllers: [TasksController],
   providers: [
     TasksService,
-    {
-      provide: "TasksRepository",
-      useFactory: (dataSource: DataSource) => TasksRepository(dataSource),
-      inject: [DataSource]
-    }
   ],
-  exports: ["TasksRepository"] // ✅ Export for reuse in other modules if needed
 })
 export class TasksModule { }

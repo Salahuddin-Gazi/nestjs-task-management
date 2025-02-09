@@ -120,28 +120,34 @@
 // }
 
 
-import { Injectable, NotFoundException, Inject } from "@nestjs/common";
+import {
+  Injectable, NotFoundException,
+  // Inject
+} from "@nestjs/common";
 import { Task } from "./task.entity";
-import { TasksRepository } from "./tasks.repository";
+// import { TasksRepository } from "./tasks.repository";
+import { DataSource, Repository } from "typeorm";
 
 @Injectable()
 export class TasksService {
+  private tasksRepository: Repository<Task>;
+
+
   constructor(
-    @Inject("TasksRepository") // Inject custom repository
-    private tasksRepository: ReturnType<typeof TasksRepository>
-  ) { }
+    private dataSource: DataSource
+  ) {
+    this.tasksRepository = this.dataSource.getRepository(Task)
+  }
 
   async getTaskById(id: string): Promise<Task> {
     const found = await this.tasksRepository.findOne({ where: { id } });
-
     if (!found) {
       throw new NotFoundException(`Task with ID ${id} not found`);
     }
-
     return found;
   }
 
-  async getTasksByStatus(status: string): Promise<Task[]> {
-    return this.tasksRepository.findByStatus(status); // ✅ Call custom method
-  }
+  // async getTasksByStatus(status: string): Promise<Task[]> {
+  //   return this.tasksRepository.findByStatus(status); // ✅ Call custom method
+  // }
 }

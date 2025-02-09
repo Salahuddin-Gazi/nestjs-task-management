@@ -111,3 +111,6 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
 > remove docker container
 > `docker container rm postgres-nest-demo`
+
+> datasource setup taken from
+> [How To Set Up TypeORM DataSource in Your NestJS Project](https://www.freecodecamp.org/news/how-to-setup-typeorm-datasource-nestjs-app/)
