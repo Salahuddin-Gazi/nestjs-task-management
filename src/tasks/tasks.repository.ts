@@ -1,17 +1,14 @@
-// We are using Data Mapper approach
+import { DataSource } from 'typeorm';
+import { Task } from './task.entity';
 
-// import { EntityRepository, Repository } from "typeorm";
-// import { Task } from "./task.entity";
+// Factory function to create the custom repository
+export const TasksRepository = (dataSource: DataSource) => {
+  const tasksRepository = dataSource.getRepository(Task);
 
-// @EntityRepository(Task)
-// export class TasksRepository extends Repository<Task> { }
-
-import { DataSource } from "typeorm";
-import { Task } from "./task.entity";
-
-export const TasksRepository = (dataSource: DataSource) =>
-  dataSource.getRepository(Task).extend({
-    async findByStatus(status: string) {
+  // Extend the base repository with custom methods
+  return tasksRepository.extend({
+    async findByStatus(status: string): Promise<Task[]> {
       return this.find({ where: { status } });
-    }
+    },
   });
+};
