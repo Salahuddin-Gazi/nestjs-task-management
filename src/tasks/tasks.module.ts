@@ -1,39 +1,26 @@
-// import { Module } from '@nestjs/common';
-// import { TasksController } from './tasks.controller';
-// import { TasksService } from './tasks.service';
-// import { TypeOrmModule } from '@nestjs/typeorm';
-// import { TasksRepository } from './tasks.repository';
-
-// @Module({
-//   imports: [
-//     TypeOrmModule.forFeature([
-//       TasksRepository
-//     ])
-//   ],
-//   controllers: [TasksController],
-//   providers: [TasksService],
-// })
-// export class TasksModule { }
-
 import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { TasksController } from "./tasks.controller";
 import { TasksService } from "./tasks.service";
-import { Task } from "./task.entity";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import { TasksRepository } from "./tasks.repository";
 import { DataSource } from "typeorm";
+import { Task } from "./task.entity";
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Task])], // ✅ Register Task entity
+  imports: [
+    TypeOrmModule.forFeature([Task])
+  ],
   controllers: [TasksController],
   providers: [
     TasksService,
     {
-      provide: "TasksRepository",
+      provide: 'TasksRepository',
       useFactory: (dataSource: DataSource) => TasksRepository(dataSource),
       inject: [DataSource]
     }
   ],
-  exports: ["TasksRepository"] // ✅ Export for reuse in other modules if needed
+  exports: [TasksService]
 })
+
 export class TasksModule { }
