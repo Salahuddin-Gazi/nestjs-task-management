@@ -5,7 +5,6 @@ import {
 import { Task } from "./task.entity";
 import { CreateTaskDto } from "./dto/create-task.dto";
 import { TasksRepositoryType } from "./tasks.repository"
-import { UpdateTaskStatusDto } from "./dto/update-task-status.dto";
 import { TaskStatus } from "./task-status.enum";
 import { GetTasksFilterDto } from "./dto/get-tasks-filter.dto";
 
